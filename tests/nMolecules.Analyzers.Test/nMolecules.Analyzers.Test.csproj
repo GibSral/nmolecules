@@ -30,4 +30,36 @@
     <ProjectReference Include="..\..\src\nMolecules.DDD\nMolecules.DDD.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="ValueObjectAnalyzerTests\SampleData\ValidValueObject.cs" />
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\AggregateRootAttribute.cs">
+      <Link>Attributes\AggregateRootAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\BoundedContextAttribute.cs">
+      <Link>Attributes\BoundedContextAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\EntityAttribute.cs">
+      <Link>Attributes\EntityAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\FactoryAttribute.cs">
+      <Link>Attributes\FactoryAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\ModuleAttribute.cs">
+      <Link>Attributes\ModuleAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\RepositoryAttribute.cs">
+      <Link>Attributes\RepositoryAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\ServiceAttribute.cs">
+      <Link>Attributes\ServiceAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\src\nMolecules.DDD\Attributes\ValueObjectAttribute.cs">
+      <Link>Attributes\ValueObjectAttribute.cs</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValueObjectAnalyzerTests\SampleData\ValidValueObject.cs" />
+    <EmbeddedResource Include="ValueObjectAnalyzerTests\SampleData\ValueObjectWithPublicPropertyGetter.cs" />
+    <Compile Remove="Attributes.cs" />
+    <EmbeddedResource Include="Attributes.cs" />
+  </ItemGroup>
+
 </Project>
