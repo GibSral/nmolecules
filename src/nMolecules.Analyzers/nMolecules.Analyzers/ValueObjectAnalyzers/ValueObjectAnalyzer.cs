@@ -51,7 +51,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             context.RegisterSymbolActionForValueObject(AnalyzeType, SymbolKind.NamedType);
 
             context.RegisterSymbolActionForValueObject(
-                    analysisContext => AnalyzeField(analysisContext, symbol => EmitImmutabilityViolation(analysisContext, symbol)),
+                    analysisContext => AnalyzeField(analysisContext, symbol => EmitImmutabilityViolation(analysisContext, symbol), symbol => EmitEntityViolation(analysisContext, symbol)),
                 SymbolKind.Field);
         }
 
