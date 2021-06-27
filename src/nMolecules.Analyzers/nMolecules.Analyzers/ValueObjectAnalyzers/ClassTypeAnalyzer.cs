@@ -1,26 +1,24 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class ClassTypeAnalyzer : DiagnosticAnalyzer
+    public static class ClassTypeAnalyzer
     {
         private const string Category = "Design";
         public const string ValueObjectsMustImplementIEquatableId = nameof(ValueObjectsMustImplementIEquatableId);
         public const string ValueObjectsMustBeSealedId = nameof(ValueObjectsMustBeSealedId);
 
-        private static readonly DiagnosticDescriptor ValueObjectMustImplementIEquatable = new(ValueObjectsMustImplementIEquatableId,
+        public static readonly DiagnosticDescriptor ValueObjectMustImplementIEquatable = new(ValueObjectsMustImplementIEquatableId,
             new LocalizableResourceString(nameof(Resources.ValueObjectMustImplementIEquatableTitle), Resources.ResourceManager, typeof(Resources)),
             new LocalizableResourceString(nameof(Resources.ValueObjectMustImplementIEquatableMessageFormat), Resources.ResourceManager, typeof(Resources)),
-           Category,
+            Category,
             DiagnosticSeverity.Error,
             true,
             new LocalizableResourceString(nameof(Resources.ValueObjectMustImplementIEquatableDescription), Resources.ResourceManager, typeof(Resources)));
 
-        private static readonly DiagnosticDescriptor ValueObjectMustBeSealed = new(ValueObjectsMustBeSealedId,
+        public static readonly DiagnosticDescriptor ValueObjectMustBeSealed = new(ValueObjectsMustBeSealedId,
             new LocalizableResourceString(nameof(Resources.ValueObjectMustBeSealedTitle), Resources.ResourceManager, typeof(Resources)),
             new LocalizableResourceString(nameof(Resources.ValueObjectMustBeSealedMessageFormat), Resources.ResourceManager, typeof(Resources)),
             Category,
@@ -28,23 +26,11 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             true,
             new LocalizableResourceString(nameof(Resources.ValueObjectMustBeSealedDescription), Resources.ResourceManager, typeof(Resources)));
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(ValueObjectMustImplementIEquatable, ValueObjectMustBeSealed);
-
-        public override void Initialize(AnalysisContext context)
-        {
-            context.EnableConcurrentExecution();
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.RegisterSymbolAction(AnalyzeType, SymbolKind.NamedType);
-        }
-
-        private static void AnalyzeType(SymbolAnalysisContext context)
+        public static void AnalyzeType(SymbolAnalysisContext context)
         {
             var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
-            if (namedTypeSymbol.IsValueObject())
-            {
-                EnsureValueObjectIsSealed(context, namedTypeSymbol);
-                EnsureValueObjectImplementsIEquatable(context, namedTypeSymbol);
-            }
+            EnsureValueObjectIsSealed(context, namedTypeSymbol);
+            EnsureValueObjectImplementsIEquatable(context, namedTypeSymbol);
         }
 
         private static void EnsureValueObjectIsSealed(SymbolAnalysisContext context, INamedTypeSymbol namedTypeSymbol)

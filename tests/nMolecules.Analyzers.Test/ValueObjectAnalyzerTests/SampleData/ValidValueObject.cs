@@ -4,16 +4,16 @@
     using NMolecules.DDD;
     
     [ValueObject]
-    public sealed class ValidValueObject : IEquatable<ValidValueObject>
+    public sealed class ValiedValueObject : IEquatable<ValiedValueObject>
     {
-        public ValidValueObject(string value)
+        public ValiedValueObject(string value)
         {
             Value = value;
         }
         
         public string Value { get; }
         
-        public bool Equals(ValidValueObject other)
+        public bool Equals(ValiedValueObject other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -21,7 +21,7 @@
         }
         public override bool Equals(object obj)
         {
-            return ReferenceEquals(this, obj) || obj is ValidValueObject other && Equals(other);
+            return ReferenceEquals(this, obj) || obj is ValiedValueObject other && Equals(other);
         }
         public override int GetHashCode()
         {

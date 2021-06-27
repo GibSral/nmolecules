@@ -9,12 +9,8 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         public static void AnalyzeProperty(SymbolAnalysisContext context, Action<ISymbol> emitEntityViolation, Action<ISymbol> emitImmutabilityViolation)
         {
             var propertySymbol = (IPropertySymbol)context.Symbol;
-            var classType = propertySymbol.ContainingType;
-            if (classType.IsValueObject())
-            {
-                EnsureThatPropertyIsReadonly(propertySymbol, emitImmutabilityViolation);
-                EnsureThatPropertyIsNotOfAnEntityType(propertySymbol, emitEntityViolation);
-            }
+            EnsureThatPropertyIsReadonly(propertySymbol, emitImmutabilityViolation);
+            EnsureThatPropertyIsNotOfAnEntityType(propertySymbol, emitEntityViolation);
         }
 
         private static void EnsureThatPropertyIsNotOfAnEntityType(IPropertySymbol propertySymbol, Action<ISymbol> emitEntityViolation)

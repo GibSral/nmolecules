@@ -8,6 +8,11 @@ namespace NMolecules.Analyzers
     {
         public static bool IsValueObject(this INamedTypeSymbol type)
         {
+            if (type == null)
+            {
+                return false;
+            }
+            
             var attributes = type.GetAttributes();
             return attributes.Any(IsValueObject);
         }

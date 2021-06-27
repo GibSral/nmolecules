@@ -15,7 +15,7 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
 
             await VerifyCS.VerifyAnalyzerAsync(testCode, EmptyDiagnosticResults);
         }
-
+        
         [Fact]
         public async Task AnalyzeImmutability_WithPropertyHasPublicSetter_EmitsCompilerError()
         {

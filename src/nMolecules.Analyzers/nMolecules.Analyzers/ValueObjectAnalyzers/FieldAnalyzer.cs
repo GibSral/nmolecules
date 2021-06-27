@@ -9,10 +9,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         public static void AnalyzeField(SymbolAnalysisContext context, Action<ISymbol> emitImmutabilityViolation)
         {
             var fieldSymbol = (IFieldSymbol)context.Symbol;
-            if (fieldSymbol.ContainingType.IsValueObject())
-            {
-                EnsureFieldIsReadonly(fieldSymbol, emitImmutabilityViolation);
-            }
+            EnsureFieldIsReadonly(fieldSymbol, emitImmutabilityViolation);
         }
 
         private static void EnsureFieldIsReadonly(IFieldSymbol fieldSymbol, Action<ISymbol> emitImmutabilityViolation)

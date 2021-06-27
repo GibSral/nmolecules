@@ -4,16 +4,16 @@
     using NMolecules.DDD;
     
     [ValueObject]
-    public sealed class ValueObjectWithPublicPropertyGetter : IEquatable<ValueObjectWithPublicPropertyGetter>
+    public class ValueObjectNotSealed : IEquatable<ValueObjectNotSealed>
     {
-        public ValueObjectWithPublicPropertyGetter(string value)
+        public ValueObjectNotSealed(string value)
         {
             Value = value;
         }
         
-        public string Value { get; set; }
+        public string Value { get; }
         
-        public bool Equals(ValueObjectWithPublicPropertyGetter other)
+        public bool Equals(ValueObjectNotSealed other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -21,7 +21,7 @@
         }
         public override bool Equals(object obj)
         {
-            return ReferenceEquals(this, obj) || obj is ValueObjectWithPublicPropertyGetter other && Equals(other);
+            return ReferenceEquals(this, obj) || obj is ValueObjectNotSealed other && Equals(other);
         }
         public override int GetHashCode()
         {
