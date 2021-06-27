@@ -25,5 +25,15 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
             var expectedCompilerError = CompilerError(ValueObjectAnalyzer.ValueObjectsMustBeImmutableId).WithSpan(lineNumber, 23, lineNumber, 28);
             await VerifyCS.VerifyAnalyzerAsync(testCode, expectedCompilerError);
         }
+
+        [Fact]
+        public async Task AnalyzeImmutability_WithFieldIsNotReadonly_EmitsCompilerError()
+        {
+            var (testCode, offset) = SampleDataLoader.LoadFromNamespaceOf<Immutablity>("ValueObjectWithFiledNotReadonly.cs");
+            var lineNumber = offset + 9;
+
+            var expectedCompilerError = CompilerError(ValueObjectAnalyzer.ValueObjectsMustBeImmutableId).WithSpan(lineNumber, 24, lineNumber, 29);
+            await VerifyCS.VerifyAnalyzerAsync(testCode, expectedCompilerError);
+        }
     }
 }
