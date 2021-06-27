@@ -15,7 +15,17 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
             var (testCode, offset) = SampleDataLoader.LoadFromNamespaceOf<ClassRequirements>("ValueObjectNotSealed.cs");
             var lineNumber = offset + 7;
 
-            var expectedCompilerError = CompilerError(ClassTypeAnalyzer.ValueObjectsMustBeSealedId).WithSpan(lineNumber, 18, lineNumber, 38);
+            var expectedCompilerError = CompilerError(ClassSymbolAnalyzer.ValueObjectsMustBeSealedId).WithSpan(lineNumber, 18, lineNumber, 38);
+            await VerifyCS.VerifyAnalyzerAsync(testCode, expectedCompilerError);
+        }
+
+        [Fact]
+        public async Task AnalyzeClass_WithValueObjectDoesNotImplementIEquatable_EmitsCompilerError()
+        {
+            var (testCode, offset) = SampleDataLoader.LoadFromNamespaceOf<ClassRequirements>("ValueObjectWithoutIEquatable.cs");
+            var lineNumber = offset + 7;
+
+            var expectedCompilerError = CompilerError(ClassSymbolAnalyzer.ValueObjectsMustImplementIEquatableId).WithSpan(lineNumber, 25, lineNumber, 45);
             await VerifyCS.VerifyAnalyzerAsync(testCode, expectedCompilerError);
         }
     }

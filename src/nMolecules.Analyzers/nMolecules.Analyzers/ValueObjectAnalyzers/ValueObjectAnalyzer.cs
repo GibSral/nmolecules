@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using static NMolecules.Analyzers.ValueObjectAnalyzers.PropertyAnalyzer;
 using static NMolecules.Analyzers.ValueObjectAnalyzers.MethodAnalyzer;
 using static NMolecules.Analyzers.ValueObjectAnalyzers.FieldAnalyzer;
-using static NMolecules.Analyzers.ValueObjectAnalyzers.ClassTypeAnalyzer;
+using static NMolecules.Analyzers.ValueObjectAnalyzers.ClassSymbolAnalyzer;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {

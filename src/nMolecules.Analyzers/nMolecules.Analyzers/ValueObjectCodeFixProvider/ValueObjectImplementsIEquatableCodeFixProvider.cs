@@ -19,13 +19,13 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
     {
         private const string Title = "Implement IEquatable";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(ClassTypeAnalyzer.ValueObjectsMustImplementIEquatableId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(ClassSymbolAnalyzer.ValueObjectsMustImplementIEquatableId);
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
-            var diagnostic = context.Diagnostics.First(it => it.Id.Equals(ClassTypeAnalyzer.ValueObjectsMustImplementIEquatableId));
+            var diagnostic = context.Diagnostics.First(it => it.Id.Equals(ClassSymbolAnalyzer.ValueObjectsMustImplementIEquatableId));
             var diagnosticSpan = diagnostic.Location.SourceSpan;
             var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
 
@@ -42,7 +42,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
                 declaration,
                 SyntaxFactory.ParseName($"IEquatable<{className}>"));
             var syntaxRoot = await contextDocument.GetSyntaxRootAsync(cancellationToken);
-            var newDocument = contextDocument.WithSyntaxRoot(syntaxRoot.ReplaceNode(declaration, updated));
+            var newDocument = contextDocument.WithSyntaxRoot(syntaxRoot!.ReplaceNode(declaration, updated));
             return newDocument;
         }
     }

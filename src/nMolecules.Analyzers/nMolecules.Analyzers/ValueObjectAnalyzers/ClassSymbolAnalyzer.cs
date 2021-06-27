@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
-    public static class ClassTypeAnalyzer
+    public static class ClassSymbolAnalyzer
     {
         private const string Category = "Design";
         public const string ValueObjectsMustImplementIEquatableId = nameof(ValueObjectsMustImplementIEquatableId);
