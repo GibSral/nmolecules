@@ -1,12 +1,14 @@
-﻿using System;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
     public static class MethodAnalyzer
     {
-        public static void AnalyzeMethod(SymbolAnalysisContext context, Action<ISymbol> emitEntityViolation)
+        public static void AnalyzeMethod(SymbolAnalysisContext context)
         {
             var method = (IMethodSymbol)context.Symbol;
             if (IsProperty(method))
@@ -14,32 +16,43 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
                 return;
             }
 
-            EnsureThatEntitiesAreNotUsedAsParameters(method, emitEntityViolation);
-            EnsureThatEntityIsNotUsedAsReturnValue(method, emitEntityViolation);
+            EnsureThatEntitiesAreNotUsedAsParameters(context, method);
+            EnsureThatEntityIsNotUsedAsReturnValue(context, method);
         }
 
         private static bool IsProperty(IMethodSymbol method) => method.MethodKind == MethodKind.PropertyGet || method.MethodKind == MethodKind.PropertySet;
 
-        private static void EnsureThatEntityIsNotUsedAsReturnValue(IMethodSymbol method, Action<ISymbol> emitEntityViolation)
+        private static void EnsureThatEntityIsNotUsedAsReturnValue(SymbolAnalysisContext context, IMethodSymbol method)
         {
             if (!method.ReturnsVoid)
             {
                 if (method.ReturnType.IsEntity())
                 {
-                    emitEntityViolation(method);
+                    context.ReportDiagnostic(method.ViolatesEntityUsage());
                 }
             }
         }
 
-        private static void EnsureThatEntitiesAreNotUsedAsParameters(IMethodSymbol method, Action<ISymbol> emitEntityViolation)
+        private static void EnsureThatEntitiesAreNotUsedAsParameters(SymbolAnalysisContext context, IMethodSymbol method)
         {
             foreach (var parameter in method.Parameters)
             {
                 var parameterType = parameter.Type;
                 if (parameterType.IsEntity())
                 {
-                    emitEntityViolation(parameter);
+                    context.ReportDiagnostic(parameter.ViolatesEntityUsage());
                 }
+            }
+        }
+
+        public static void AnalyzeDeclarations(SyntaxNodeAnalysisContext context)
+        {
+            var localDeclaration = (LocalDeclarationStatementSyntax)context.Node;
+            var variable = localDeclaration.Declaration.Variables.Single();
+            var declaredSymbol = (ILocalSymbol)context.SemanticModel.GetDeclaredSymbol(variable)!;
+            if (declaredSymbol.Type.IsEntity())
+            {
+                context.ReportDiagnostic(declaredSymbol.ViolatesEntityUsage());
             }
         }
     }

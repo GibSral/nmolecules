@@ -6,26 +6,6 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
     public static class ClassSymbolAnalyzer
     {
-        private const string Category = "Design";
-        public const string ValueObjectsMustImplementIEquatableId = nameof(ValueObjectsMustImplementIEquatableId);
-        public const string ValueObjectsMustBeSealedId = nameof(ValueObjectsMustBeSealedId);
-
-        public static readonly DiagnosticDescriptor ValueObjectMustImplementIEquatable = new(ValueObjectsMustImplementIEquatableId,
-            new LocalizableResourceString(nameof(Resources.ValueObjectMustImplementIEquatableTitle), Resources.ResourceManager, typeof(Resources)),
-            new LocalizableResourceString(nameof(Resources.ValueObjectMustImplementIEquatableMessageFormat), Resources.ResourceManager, typeof(Resources)),
-            Category,
-            DiagnosticSeverity.Error,
-            true,
-            new LocalizableResourceString(nameof(Resources.ValueObjectMustImplementIEquatableDescription), Resources.ResourceManager, typeof(Resources)));
-
-        public static readonly DiagnosticDescriptor ValueObjectMustBeSealed = new(ValueObjectsMustBeSealedId,
-            new LocalizableResourceString(nameof(Resources.ValueObjectMustBeSealedTitle), Resources.ResourceManager, typeof(Resources)),
-            new LocalizableResourceString(nameof(Resources.ValueObjectMustBeSealedMessageFormat), Resources.ResourceManager, typeof(Resources)),
-            Category,
-            DiagnosticSeverity.Error,
-            true,
-            new LocalizableResourceString(nameof(Resources.ValueObjectMustBeSealedDescription), Resources.ResourceManager, typeof(Resources)));
-
         public static void AnalyzeType(SymbolAnalysisContext context)
         {
             var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
@@ -37,7 +17,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         {
             if (!namedTypeSymbol.IsSealed)
             {
-                EmitSealedViolation(context, namedTypeSymbol);
+                context.ReportDiagnostic(namedTypeSymbol.IsNotSealed());
             }
         }
 
@@ -52,14 +32,8 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 
             if (!implementsIEquatable)
             {
-                EmitIEquatableViolation(context, namedTypeSymbol);
+                context.ReportDiagnostic(namedTypeSymbol.DoesNotImplementIEquatable());
             }
         }
-
-
-        private static void EmitIEquatableViolation(SymbolAnalysisContext context, INamedTypeSymbol symbol) =>
-            context.EmitViolation(symbol, ValueObjectMustImplementIEquatable, symbol.Name);
-
-        private static void EmitSealedViolation(SymbolAnalysisContext context, INamedTypeSymbol symbol) => context.EmitViolation(symbol, ValueObjectMustBeSealed);
     }
 }

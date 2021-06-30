@@ -6,7 +6,7 @@ namespace NMolecules.Analyzers
 {
     public static class SymbolExtensions
     {
-        public static bool IsValueObject(this INamedTypeSymbol type)
+        public static bool IsValueObject(this ITypeSymbol type)
         {
             var attributes = type.GetAttributes();
             return attributes.Any(IsValueObject);
@@ -25,5 +25,7 @@ namespace NMolecules.Analyzers
             var attributes = type.GetAttributes().ToArray();
             return attributes.Any(it => it.AttributeClass.Name.Equals(nameof(EntityAttribute)));
         }
+
+        public static Diagnostic Diagnostic(this ISymbol symbol, DiagnosticDescriptor descriptor, params object[] parameters) => Microsoft.CodeAnalysis.Diagnostic.Create(descriptor, symbol.Locations[0], parameters);
     }
 }

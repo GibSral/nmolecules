@@ -18,7 +18,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
     public class ValueObjectMustBeSealedCodeFixProvider : CodeFixProvider
     {
         private const string Title = "Make value object sealed";
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(ClassSymbolAnalyzer.ValueObjectsMustBeSealedId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Diagnostics.ValueObjectsMustBeSealedId);
 
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
@@ -26,7 +26,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
-            var diagnostic = context.Diagnostics.First(it => it.Id.Equals(ClassSymbolAnalyzer.ValueObjectsMustBeSealedId));
+            var diagnostic = context.Diagnostics.First(it => it.Id.Equals(Diagnostics.ValueObjectsMustBeSealedId));
             var diagnosticSpan = diagnostic.Location.SourceSpan;
             var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
 

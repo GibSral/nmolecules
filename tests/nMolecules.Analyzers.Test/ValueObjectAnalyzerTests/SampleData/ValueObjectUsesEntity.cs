@@ -21,6 +21,7 @@
 
         public SomeEntity AddToEntity(SomeEntity entity)
         {
+            var someEntity = new SomeEntity();
             return new SomeEntity();
         }
         

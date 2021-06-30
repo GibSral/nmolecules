@@ -6,26 +6,26 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
     public static class FieldAnalyzer
     {
-        public static void AnalyzeField(SymbolAnalysisContext context, Action<ISymbol> emitImmutabilityViolation, Action<ISymbol> emitEntityViolation)
+        public static void AnalyzeField(SymbolAnalysisContext context)
         {
             var fieldSymbol = (IFieldSymbol)context.Symbol;
-            EnsureFieldIsReadonly(fieldSymbol, emitImmutabilityViolation);
-            EnsureFieldIsNoEntity(fieldSymbol, emitEntityViolation);
+            EnsureFieldIsReadonly(context, fieldSymbol);
+            EnsureFieldIsNoEntity(context, fieldSymbol);
         }
 
-        private static void EnsureFieldIsNoEntity(IFieldSymbol fieldSymbol, Action<ISymbol> emitEntityViolation)
+        private static void EnsureFieldIsNoEntity(SymbolAnalysisContext context, IFieldSymbol fieldSymbol)
         {
             if (fieldSymbol.Type.IsEntity())
             {
-                emitEntityViolation(fieldSymbol);
+                context.ReportDiagnostic(fieldSymbol.ViolatesEntityUsage());
             }
         }
 
-        private static void EnsureFieldIsReadonly(IFieldSymbol fieldSymbol, Action<ISymbol> emitImmutabilityViolation)
+        private static void EnsureFieldIsReadonly(SymbolAnalysisContext context, IFieldSymbol fieldSymbol)
         {
             if (!fieldSymbol.IsReadOnly)
             {
-                emitImmutabilityViolation(fieldSymbol);
+                context.ReportDiagnostic(fieldSymbol.ViolatesImmutability());
             }
         }
     }

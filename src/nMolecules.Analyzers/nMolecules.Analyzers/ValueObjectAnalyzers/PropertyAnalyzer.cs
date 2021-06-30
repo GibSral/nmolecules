@@ -6,26 +6,26 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
     public static class PropertyAnalyzer
     {
-        public static void AnalyzeProperty(SymbolAnalysisContext context, Action<ISymbol> emitEntityViolation, Action<ISymbol> emitImmutabilityViolation)
+        public static void AnalyzeProperty(SymbolAnalysisContext context)
         {
             var propertySymbol = (IPropertySymbol)context.Symbol;
-            EnsureThatPropertyIsReadonly(propertySymbol, emitImmutabilityViolation);
-            EnsureThatPropertyIsNotOfAnEntityType(propertySymbol, emitEntityViolation);
+            EnsureThatPropertyIsReadonly(context, propertySymbol);
+            EnsureThatPropertyIsNotOfAnEntityType(context, propertySymbol);
         }
 
-        private static void EnsureThatPropertyIsNotOfAnEntityType(IPropertySymbol propertySymbol, Action<ISymbol> emitEntityViolation)
+        private static void EnsureThatPropertyIsNotOfAnEntityType(SymbolAnalysisContext context, IPropertySymbol propertySymbol)
         {
             if (propertySymbol.IsEntity())
             {
-                emitEntityViolation(propertySymbol);
+               context.ReportDiagnostic(propertySymbol.ViolatesEntityUsage()); 
             }
         }
 
-        private static void EnsureThatPropertyIsReadonly(IPropertySymbol propertySymbol, Action<ISymbol> emitImmutabilityViolation)
+        private static void EnsureThatPropertyIsReadonly(SymbolAnalysisContext context, IPropertySymbol propertySymbol)
         {
             if (!propertySymbol.IsReadOnly)
             {
-                emitImmutabilityViolation(propertySymbol);
+                context.ReportDiagnostic(propertySymbol.ViolatesImmutability());
             }
         }
     }
