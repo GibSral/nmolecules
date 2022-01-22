@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -6,6 +7,7 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using Microsoft.CodeAnalysis.Text;
 
 namespace NMolecules.Analyzers.Test.Verifiers
 {
@@ -36,7 +38,8 @@ namespace NMolecules.Analyzers.Test.Verifiers
         public static async Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
         {
             var attributesProject = new ProjectState(AttributesProjectName, LanguageNames.CSharp, string.Empty, "cs");
-            attributesProject.Sources.Add(("attribute.cs", SampleDataLoader.GetAttributes()));
+            attributesProject.Sources.AddRange(SampleDataLoader.GetAttributes()
+                .Select(it => (it.filename, SourceText.From(it.content))));
             var test = new Test
             {
                 TestCode = source,

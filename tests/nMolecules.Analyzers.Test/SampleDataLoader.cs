@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -7,27 +8,38 @@ namespace NMolecules.Analyzers.Test
 {
     public static class SampleDataLoader
     {
-        private static readonly Lazy<(string attributesCode, int attributesLineCount)> Attributes = new(() =>
+        private static readonly Lazy<IEnumerable<(string filename, string content)>>
+            Attributes = new(LoadAllAttributes);
+
+        private static IEnumerable<(string filename, string content)> LoadAllAttributes()
         {
             var type = typeof(SampleDataLoader);
             var assembly = type.Assembly;
-            var resourcePath = $"{type.Namespace}.Attributes.cs";
-            var attributes = LoadResource(assembly, resourcePath);
+            yield return LoadAttributes("AggregateRootAttribute");
+            yield return LoadAttributes("BoundedContextAttribute");
+            yield return LoadAttributes("EntityAttribute");
+            yield return LoadAttributes("FactoryAttribute");
+            yield return LoadAttributes("Identity");
+            yield return LoadAttributes("ModuleAttribute");
+            yield return LoadAttributes("RepositoryAttribute");
+            yield return LoadAttributes("ServiceAttribute");
+            yield return LoadAttributes("ValueObjectAttribute");
 
-            return (attributes, attributes.LineCount());
-        });
 
-        private static int LineCount(this string str)
-        {
-            return str.Split('\n').Length;
+            (string filename, string content) LoadAttributes(string filename)
+            {
+                var resourcePath = $"{type.Namespace}.Attributes.{filename}.cs";
+                var attributes = LoadResource(assembly, resourcePath);
+                return (filename, attributes);
+            }
         }
 
-        public static string GetAttributes()
+        public static IEnumerable<(string filename, string content)> GetAttributes()
         {
-            return Attributes.Value.attributesCode;
+            return Attributes.Value;
         }
 
-        public static string  LoadFromNamespaceOf<T>(string sampleName)
+        public static string LoadFromNamespaceOf<T>(string sampleName)
         {
             var stringBuilder = new StringBuilder();
             var type = typeof(T);
