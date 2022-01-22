@@ -13,13 +13,12 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
         [Fact]
         public async Task AnalyzeEntityUsage_WithValueObjectUsesEntity_EmitsCompilerError()
         {
-            var (testCode, offset) =
-                SampleDataLoader.LoadFromNamespaceOf<ValueObjectUsesEntity>("ValueObjectUsesEntity.cs");
-            var entityFieldLineNumber = offset + 14;
-            var ctorLineNumber = offset + 15;
-            var propertyLineNumber = offset + 20;
-            var methodLineNumber = offset + 22;
-            var entityInMethodBodyLineNumber = offset + 24;
+            var testCode = SampleDataLoader.LoadFromNamespaceOf<ValueObjectUsesEntity>("ValueObjectUsesEntity.cs");
+            const int entityFieldLineNumber = 14;
+            const int ctorLineNumber = 15;
+            const int propertyLineNumber = 20;
+            const int methodLineNumber = 22;
+            const int entityInMethodBodyLineNumber = 24;
 
             var entityAsField = CompilerError(Diagnostics.NoEntitiesInValueObjectsId)
                 .WithSpan(entityFieldLineNumber, 37, entityFieldLineNumber, 43);

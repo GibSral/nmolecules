@@ -13,7 +13,7 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
         [Fact]
         public async Task AnalyzeImmutability_WithValueObjectIsImmutable_IsValid()
         {
-            var (testCode, _) = SampleDataLoader.LoadFromNamespaceOf<Immutablity>("ValidValueObject.cs");
+            var testCode = SampleDataLoader.LoadFromNamespaceOf<Immutablity>("ValidValueObject.cs");
 
             await VerifyCS.VerifyAnalyzerAsync(testCode, EmptyDiagnosticResults);
         }
@@ -21,9 +21,8 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
         [Fact]
         public async Task AnalyzeImmutability_WithPropertyHasPublicSetter_EmitsCompilerError()
         {
-            var (testCode, offset) =
-                SampleDataLoader.LoadFromNamespaceOf<Immutablity>("ValueObjectWithPublicPropertyGetter.cs");
-            var lineNumber = offset + 14;
+            var testCode = SampleDataLoader.LoadFromNamespaceOf<Immutablity>("ValueObjectWithPublicPropertyGetter.cs");
+            const int lineNumber = 14;
 
             var expectedCompilerError = CompilerError(Diagnostics.ValueObjectsMustBeImmutableId)
                 .WithSpan(lineNumber, 23, lineNumber, 28);
@@ -33,9 +32,8 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
         [Fact]
         public async Task AnalyzeImmutability_WithFieldIsNotReadonly_EmitsCompilerError()
         {
-            var (testCode, offset) =
-                SampleDataLoader.LoadFromNamespaceOf<Immutablity>("ValueObjectWithFiledNotReadonly.cs");
-            var lineNumber = offset + 9;
+            var testCode = SampleDataLoader.LoadFromNamespaceOf<Immutablity>("ValueObjectWithFiledNotReadonly.cs");
+            const int lineNumber = 9;
 
             var expectedCompilerError = CompilerError(Diagnostics.ValueObjectsMustBeImmutableId)
                 .WithSpan(lineNumber, 24, lineNumber, 29);

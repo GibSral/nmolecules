@@ -27,7 +27,7 @@ namespace NMolecules.Analyzers.Test
             return Attributes.Value.attributesCode;
         }
 
-        public static (string testCode, int testCodeOffset) LoadFromNamespaceOf<T>(string sampleName)
+        public static string  LoadFromNamespaceOf<T>(string sampleName)
         {
             var stringBuilder = new StringBuilder();
             var type = typeof(T);
@@ -35,7 +35,7 @@ namespace NMolecules.Analyzers.Test
             var assembly = type.Assembly;
             var sampleData = LoadResource(assembly!, resourcePath!);
             stringBuilder.AppendLine(sampleData);
-            return (stringBuilder.ToString(), 0);
+            return stringBuilder.ToString();
         }
 
         private static string LoadResource(Assembly assembly, string resourcePath)
