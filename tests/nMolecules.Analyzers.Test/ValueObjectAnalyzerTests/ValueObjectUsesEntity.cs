@@ -33,7 +33,6 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
                 .WithSpan(methodLineNumber, 50, methodLineNumber, 56);
             var entityUsedInMethodBody = CompilerError(Diagnostics.NoEntitiesInValueObjectsId)
                 .WithSpan(entityInMethodBodyLineNumber, 17, entityInMethodBodyLineNumber, 27);
-
             await VerifyCS.VerifyAnalyzerAsync(testCode,
                 entityAsField,
                 entityAsParameterInCtor,

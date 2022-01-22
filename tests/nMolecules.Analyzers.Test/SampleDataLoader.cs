@@ -34,10 +34,10 @@ namespace NMolecules.Analyzers.Test
             var resourcePath = $"{type.Namespace!}.SampleData.{sampleName}";
             var assembly = type.Assembly;
             var sampleData = LoadResource(assembly!, resourcePath!);
-            //var (attributesCode, attributesLineCount) = Attributes.Value;
-            //stringBuilder.AppendLine(attributesCode);
+            var (attributesCode, attributesLineCount) = Attributes.Value;
+            stringBuilder.AppendLine(attributesCode);
             stringBuilder.AppendLine(sampleData);
-            return (stringBuilder.ToString(), 0);
+            return (stringBuilder.ToString(), attributesLineCount);
         }
 
         private static string LoadResource(Assembly assembly, string resourcePath)
