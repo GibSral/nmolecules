@@ -9,9 +9,6 @@ namespace NMolecules.Analyzers.Test.Verifiers
     {
         public class Test : VisualBasicAnalyzerTest<TAnalyzer, XUnitVerifier>
         {
-            public Test()
-            {
-            }
         }
     }
 }

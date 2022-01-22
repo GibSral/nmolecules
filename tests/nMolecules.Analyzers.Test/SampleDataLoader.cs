@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
+
 namespace NMolecules.Analyzers.Test
 {
     public static class SampleDataLoader
@@ -21,7 +22,10 @@ namespace NMolecules.Analyzers.Test
             return str.Split('\n').Length;
         }
 
-        public static string GetAttributes() => Attributes.Value.attributesCode;
+        public static string GetAttributes()
+        {
+            return Attributes.Value.attributesCode;
+        }
 
         public static (string testCode, int testCodeOffset) LoadFromNamespaceOf<T>(string sampleName)
         {

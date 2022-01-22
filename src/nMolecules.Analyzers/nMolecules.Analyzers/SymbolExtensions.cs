@@ -18,7 +18,10 @@ namespace NMolecules.Analyzers
             return isValueObject;
         }
 
-        public static bool IsEntity(this IPropertySymbol property) => property.Type.IsEntity();
+        public static bool IsEntity(this IPropertySymbol property)
+        {
+            return property.Type.IsEntity();
+        }
 
         public static bool IsEntity(this ITypeSymbol type)
         {
@@ -26,6 +29,10 @@ namespace NMolecules.Analyzers
             return attributes.Any(it => it.AttributeClass.Name.Equals(nameof(EntityAttribute)));
         }
 
-        public static Diagnostic Diagnostic(this ISymbol symbol, DiagnosticDescriptor descriptor, params object[] parameters) => Microsoft.CodeAnalysis.Diagnostic.Create(descriptor, symbol.Locations[0], parameters);
+        public static Diagnostic Diagnostic(this ISymbol symbol, DiagnosticDescriptor descriptor,
+            params object[] parameters)
+        {
+            return Microsoft.CodeAnalysis.Diagnostic.Create(descriptor, symbol.Locations[0], parameters);
+        }
     }
 }

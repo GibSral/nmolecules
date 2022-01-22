@@ -19,22 +19,32 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
     {
         private const string Title = "Implement IEquatable";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Diagnostics.ValueObjectsMustImplementIEquatableId);
-        public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+        public sealed override ImmutableArray<string> FixableDiagnosticIds =>
+            ImmutableArray.Create(Diagnostics.ValueObjectsMustImplementIEquatableId);
+
+        public sealed override FixAllProvider GetFixAllProvider()
+        {
+            return WellKnownFixAllProviders.BatchFixer;
+        }
+
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
-            var diagnostic = context.Diagnostics.First(it => it.Id.Equals(Diagnostics.ValueObjectsMustImplementIEquatableId));
+            var diagnostic =
+                context.Diagnostics.First(it => it.Id.Equals(Diagnostics.ValueObjectsMustImplementIEquatableId));
             var diagnosticSpan = diagnostic.Location.SourceSpan;
-            var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
+            var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+                .OfType<TypeDeclarationSyntax>().First();
 
 
-            var implementedIEquatable = CodeAction.Create(Title, it => ImplementIEquatable(context.Document, declaration, it), Title);
+            var implementedIEquatable =
+                CodeAction.Create(Title, it => ImplementIEquatable(context.Document, declaration, it), Title);
             context.RegisterCodeFix(implementedIEquatable, diagnostic);
         }
 
-        private async Task<Document> ImplementIEquatable(Document contextDocument, TypeDeclarationSyntax declaration, CancellationToken cancellationToken)
+        private async Task<Document> ImplementIEquatable(Document contextDocument, TypeDeclarationSyntax declaration,
+            CancellationToken cancellationToken)
         {
             var className = declaration.Identifier.Text;
             var syntaxGenerator = SyntaxGenerator.GetGenerator(contextDocument);

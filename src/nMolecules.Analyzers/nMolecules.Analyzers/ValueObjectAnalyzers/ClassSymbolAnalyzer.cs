@@ -8,32 +8,29 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
     {
         public static void AnalyzeType(SymbolAnalysisContext context)
         {
-            var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
+            var namedTypeSymbol = (INamedTypeSymbol) context.Symbol;
             EnsureValueObjectIsSealed(context, namedTypeSymbol);
             EnsureValueObjectImplementsIEquatable(context, namedTypeSymbol);
         }
 
         private static void EnsureValueObjectIsSealed(SymbolAnalysisContext context, INamedTypeSymbol namedTypeSymbol)
         {
-            if (!namedTypeSymbol.IsSealed)
-            {
-                context.ReportDiagnostic(namedTypeSymbol.IsNotSealed());
-            }
+            if (!namedTypeSymbol.IsSealed) context.ReportDiagnostic(namedTypeSymbol.IsNotSealed());
         }
 
-        private static void EnsureValueObjectImplementsIEquatable(SymbolAnalysisContext context, INamedTypeSymbol namedTypeSymbol)
+        private static void EnsureValueObjectImplementsIEquatable(SymbolAnalysisContext context,
+            INamedTypeSymbol namedTypeSymbol)
         {
             var implementsIEquatable = namedTypeSymbol.AllInterfaces.Any(it =>
             {
                 var implements = it.Name.Equals("IEquatable");
-                implements &= it.TypeArguments.Any(tp => tp.Name.Equals(namedTypeSymbol.Name) && SymbolEqualityComparer.Default.Equals(tp.ContainingNamespace, namedTypeSymbol.ContainingNamespace));
+                implements &= it.TypeArguments.Any(tp =>
+                    tp.Name.Equals(namedTypeSymbol.Name) &&
+                    SymbolEqualityComparer.Default.Equals(tp.ContainingNamespace, namedTypeSymbol.ContainingNamespace));
                 return implements;
             });
 
-            if (!implementsIEquatable)
-            {
-                context.ReportDiagnostic(namedTypeSymbol.DoesNotImplementIEquatable());
-            }
+            if (!implementsIEquatable) context.ReportDiagnostic(namedTypeSymbol.DoesNotImplementIEquatable());
         }
     }
 }
