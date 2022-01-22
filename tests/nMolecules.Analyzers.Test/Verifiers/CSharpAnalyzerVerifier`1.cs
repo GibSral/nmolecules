@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
@@ -11,6 +12,8 @@ namespace NMolecules.Analyzers.Test.Verifiers
     public static partial class CSharpAnalyzerVerifier<TAnalyzer>
         where TAnalyzer : DiagnosticAnalyzer, new()
     {
+        private const string AttributesProjectName = "nMolecules.DDD";
+
         /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.Diagnostic()" />
         public static DiagnosticResult Diagnostic()
         {
@@ -32,9 +35,16 @@ namespace NMolecules.Analyzers.Test.Verifiers
         /// <inheritdoc cref="AnalyzerVerifier{TAnalyzer, TTest, TVerifier}.VerifyAnalyzerAsync(string, DiagnosticResult[])" />
         public static async Task VerifyAnalyzerAsync(string source, params DiagnosticResult[] expected)
         {
+            var attributesProject = new ProjectState(AttributesProjectName, LanguageNames.CSharp, string.Empty, "cs");
+            attributesProject.Sources.Add(("attribute.cs", SampleDataLoader.GetAttributes()));
             var test = new Test
             {
-                TestCode = source
+                TestCode = source,
+                TestState =
+                {
+                    AdditionalProjects = {{AttributesProjectName, attributesProject}},
+                    AdditionalProjectReferences = {AttributesProjectName}
+                }
             };
 
             test.ExpectedDiagnostics.AddRange(expected);
