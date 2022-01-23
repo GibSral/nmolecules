@@ -186,4 +186,16 @@
     <value>ValueObject uses factories</value>
         <comment>The title of the diagnostic.</comment>
   </data>
+    <data name="ValueObjectUsesRepositoryDescription" xml:space="preserve">
+    <value>Value objects should not reference repositories.</value>
+        <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+    <data name="ValueObjectUsesRepositoryMessageFormat" xml:space="preserve">
+    <value>ValueObjects must not use repositories</value>
+        <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+    <data name="ValueObjectUsesRepositoryTitle" xml:space="preserve">
+    <value>ValueObject uses repositories</value>
+        <comment>The title of the diagnostic.</comment>
+  </data>
 </root>

@@ -17,6 +17,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             => ImmutableArray.Create(ValueObjectMustNotUseEntityRule,
                 ValueObjectMustNotUseServiceRule,
                 ValueObjectMustNotUseFactoryRule,
+                ValueObjectMustNotUseRepositoryRule,
                 ValueObjectMustBeImmutable,
                 ValueObjectMustImplementIEquatable, ValueObjectMustBeSealed);
 

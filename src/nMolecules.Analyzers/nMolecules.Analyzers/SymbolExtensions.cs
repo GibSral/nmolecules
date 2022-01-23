@@ -18,22 +18,11 @@ namespace NMolecules.Analyzers
             return isValueObject;
         }
 
-        public static bool IsEntity(this IPropertySymbol property)
-        {
-            return property.Type.IsEntity();
-        }
-
         public static bool IsEntity(this ITypeSymbol type)
         {
             var attributes = type.GetAttributes().ToArray();
             return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(EntityAttribute)));
         }
-
-        public static bool IsService(this IPropertySymbol property)
-        {
-            return property.Type.IsService();
-        }
-
         public static bool IsService(this ITypeSymbol type)
         {
             var attributes = type.GetAttributes().ToArray();
@@ -46,6 +35,12 @@ namespace NMolecules.Analyzers
             return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(FactoryAttribute)));
         }
 
+        public static bool IsRepository(this ITypeSymbol type)
+        {
+            var attributes = type.GetAttributes().ToArray();
+            return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(RepositoryAttribute)));
+        }
+        
         public static Diagnostic Diagnostic(this ISymbol symbol, DiagnosticDescriptor descriptor,
             params object[] parameters)
         {

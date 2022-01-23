@@ -11,6 +11,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         public const string NoEntitiesInValueObjectsId = nameof(NoEntitiesInValueObjectsId);
         public const string NoServicesInValueObjectsId = nameof(NoServicesInValueObjectsId);
         public const string NoFactoriesInValueObjectsId = nameof(NoFactoriesInValueObjectsId);
+        public const string NoRepositoriesInValueObjectsId = nameof(NoRepositoriesInValueObjectsId);
         public const string ValueObjectsMustBeImmutableId = nameof(ValueObjectsMustBeImmutableId);
         private const string Category = "Design";
 
@@ -46,6 +47,17 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
                 Resources.ResourceManager,
                 typeof(Resources)));
 
+        public static readonly DiagnosticDescriptor ValueObjectMustNotUseRepositoryRule = new(NoRepositoriesInValueObjectsId,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesRepositoryTitle), Resources.ResourceManager,
+                typeof(Resources)),
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesRepositoryMessageFormat),
+                Resources.ResourceManager, typeof(Resources)), Category,
+            DiagnosticSeverity.Error,
+            true,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesRepositoryDescription),
+                Resources.ResourceManager,
+                typeof(Resources)));
+        
         public static readonly DiagnosticDescriptor ValueObjectMustBeImmutable = new(ValueObjectsMustBeImmutableId,
             new LocalizableResourceString(nameof(Resources.ValueObjectMustBeImmutableTitle), Resources.ResourceManager,
                 typeof(Resources)),
@@ -100,6 +112,11 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             return symbol.Diagnostic(ValueObjectMustNotUseFactoryRule);
         }
 
+        public static Diagnostic ViolatesRepositoryUsage(this ISymbol symbol)
+        {
+            return symbol.Diagnostic(ValueObjectMustNotUseRepositoryRule);
+        }
+        
         public static Diagnostic DoesNotImplementIEquatable(this ISymbol symbol)
         {
             return symbol.Diagnostic(ValueObjectMustImplementIEquatable);
@@ -131,6 +148,9 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 
             if (type.IsFactory())
                 reportDiagnostic(symbol.ViolatesFactoryUsage());
+            
+            if (type.IsRepository())
+                reportDiagnostic(symbol.ViolatesRepositoryUsage());
         }
     }
 }
