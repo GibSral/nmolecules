@@ -174,4 +174,16 @@
     <value>ValueObject uses services</value>
         <comment>The title of the diagnostic.</comment>
   </data>
+    <data name="ValueObjectUsesFactoryDescription" xml:space="preserve">
+    <value>Value objects should not reference factories.</value>
+        <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+    <data name="ValueObjectUsesFactoryMessageFormat" xml:space="preserve">
+    <value>ValueObjects must not use factories</value>
+        <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+    <data name="ValueObjectUsesFactoryTitle" xml:space="preserve">
+    <value>ValueObject uses factories</value>
+        <comment>The title of the diagnostic.</comment>
+  </data>
 </root>

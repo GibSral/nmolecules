@@ -40,6 +40,12 @@ namespace NMolecules.Analyzers
             return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(ServiceAttribute)));
         }
 
+        public static bool IsFactory(this ITypeSymbol type)
+        {
+            var attributes = type.GetAttributes().ToArray();
+            return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(FactoryAttribute)));
+        }
+
         public static Diagnostic Diagnostic(this ISymbol symbol, DiagnosticDescriptor descriptor,
             params object[] parameters)
         {

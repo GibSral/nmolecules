@@ -14,7 +14,9 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
     public class ValueObjectAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
-            => ImmutableArray.Create(ValueObjectMustNotUseEntityRule, ValueObjectMustNotUseServiceRule,
+            => ImmutableArray.Create(ValueObjectMustNotUseEntityRule,
+                ValueObjectMustNotUseServiceRule,
+                ValueObjectMustNotUseFactoryRule,
                 ValueObjectMustBeImmutable,
                 ValueObjectMustImplementIEquatable, ValueObjectMustBeSealed);
 

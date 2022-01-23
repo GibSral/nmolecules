@@ -10,6 +10,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         public const string ValueObjectsMustBeSealedId = nameof(ValueObjectsMustBeSealedId);
         public const string NoEntitiesInValueObjectsId = nameof(NoEntitiesInValueObjectsId);
         public const string NoServicesInValueObjectsId = nameof(NoServicesInValueObjectsId);
+        public const string NoFactoriesInValueObjectsId = nameof(NoFactoriesInValueObjectsId);
         public const string ValueObjectsMustBeImmutableId = nameof(ValueObjectsMustBeImmutableId);
         private const string Category = "Design";
 
@@ -31,6 +32,17 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             DiagnosticSeverity.Error,
             true,
             new LocalizableResourceString(nameof(Resources.ValueObjectUsesServiceDescription),
+                Resources.ResourceManager,
+                typeof(Resources)));
+
+        public static readonly DiagnosticDescriptor ValueObjectMustNotUseFactoryRule = new(NoFactoriesInValueObjectsId,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesFactoryTitle), Resources.ResourceManager,
+                typeof(Resources)),
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesFactoryMessageFormat),
+                Resources.ResourceManager, typeof(Resources)), Category,
+            DiagnosticSeverity.Error,
+            true,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesFactoryDescription),
                 Resources.ResourceManager,
                 typeof(Resources)));
 
@@ -83,6 +95,11 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             return symbol.Diagnostic(ValueObjectMustNotUseServiceRule);
         }
 
+        public static Diagnostic ViolatesFactoryUsage(this ISymbol symbol)
+        {
+            return symbol.Diagnostic(ValueObjectMustNotUseFactoryRule);
+        }
+
         public static Diagnostic DoesNotImplementIEquatable(this ISymbol symbol)
         {
             return symbol.Diagnostic(ValueObjectMustImplementIEquatable);
@@ -111,6 +128,9 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 
             if (type.IsService())
                 reportDiagnostic(symbol.ViolatesServiceUsage());
+
+            if (type.IsFactory())
+                reportDiagnostic(symbol.ViolatesFactoryUsage());
         }
     }
 }
