@@ -15,7 +15,6 @@ namespace NMolecules.DDD.Attributes
     ///      Reference (Evans) - Aggregates</see>
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    [Entity]
     public class AggregateRootAttribute : EntityAttribute
     {
     }
