@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using static NMolecules.Analyzers.ValueObjectAnalyzers.Diagnostics;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
@@ -14,7 +15,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 
         private static void EnsureFieldIsNoEntity(SymbolAnalysisContext context, IFieldSymbol fieldSymbol)
         {
-            if (fieldSymbol.Type.IsEntity()) context.ReportDiagnostic(fieldSymbol.ViolatesEntityUsage());
+            EnsureTypeIsAllowed(context, fieldSymbol, fieldSymbol.Type);
         }
 
         private static void EnsureFieldIsReadonly(SymbolAnalysisContext context, IFieldSymbol fieldSymbol)

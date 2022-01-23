@@ -34,7 +34,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
             var diagnostic =
                 context.Diagnostics.First(it => it.Id.Equals(Diagnostics.ValueObjectsMustImplementIEquatableId));
             var diagnosticSpan = diagnostic.Location.SourceSpan;
-            var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
+            var declaration = root!.FindToken(diagnosticSpan.Start)!.Parent.AncestorsAndSelf()
                 .OfType<TypeDeclarationSyntax>().First();
 
 

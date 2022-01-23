@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using static NMolecules.Analyzers.ValueObjectAnalyzers.Diagnostics;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
@@ -15,7 +16,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         private static void EnsureThatPropertyIsNotOfAnEntityType(SymbolAnalysisContext context,
             IPropertySymbol propertySymbol)
         {
-            if (propertySymbol.IsEntity()) context.ReportDiagnostic(propertySymbol.ViolatesEntityUsage());
+            EnsureTypeIsAllowed(context, propertySymbol, propertySymbol.Type);
         }
 
         private static void EnsureThatPropertyIsReadonly(SymbolAnalysisContext context, IPropertySymbol propertySymbol)

@@ -60,6 +60,7 @@
         </EmbeddedResource>
         <EmbeddedResource Include="Attributes.cs" />
         <EmbeddedResource Include="ValueObjectAnalyzerTests\SampleData\ValueObjectUsesEntity.cs" />
+        <EmbeddedResource Include="ValueObjectAnalyzerTests\SampleData\ValueObjectUsesService.cs" />
         <EmbeddedResource Include="ValueObjectAnalyzerTests\SampleData\ValueObjectWithFiledNotReadonly.cs" />
         <EmbeddedResource Include="ValueObjectAnalyzerTests\SampleData\ValidValueObject.cs" />
         <EmbeddedResource Include="ValueObjectAnalyzerTests\SampleData\ValueObjectWithoutIEquatable.cs" />

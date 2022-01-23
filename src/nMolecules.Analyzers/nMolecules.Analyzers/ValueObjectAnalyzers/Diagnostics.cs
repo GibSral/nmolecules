@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
@@ -7,6 +9,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         public const string ValueObjectsMustImplementIEquatableId = nameof(ValueObjectsMustImplementIEquatableId);
         public const string ValueObjectsMustBeSealedId = nameof(ValueObjectsMustBeSealedId);
         public const string NoEntitiesInValueObjectsId = nameof(NoEntitiesInValueObjectsId);
+        public const string NoServicesInValueObjectsId = nameof(NoServicesInValueObjectsId);
         public const string ValueObjectsMustBeImmutableId = nameof(ValueObjectsMustBeImmutableId);
         private const string Category = "Design";
 
@@ -18,6 +21,17 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             DiagnosticSeverity.Error,
             true,
             new LocalizableResourceString(nameof(Resources.ValueObjectUsesEntityDescription), Resources.ResourceManager,
+                typeof(Resources)));
+
+        public static readonly DiagnosticDescriptor ValueObjectMustNotUseServiceRule = new(NoServicesInValueObjectsId,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesServiceTitle), Resources.ResourceManager,
+                typeof(Resources)),
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesServiceMessageFormat),
+                Resources.ResourceManager, typeof(Resources)), Category,
+            DiagnosticSeverity.Error,
+            true,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesServiceDescription),
+                Resources.ResourceManager,
                 typeof(Resources)));
 
         public static readonly DiagnosticDescriptor ValueObjectMustBeImmutable = new(ValueObjectsMustBeImmutableId,
@@ -64,6 +78,11 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             return symbol.Diagnostic(ValueObjectMustNotUseEntityRule);
         }
 
+        public static Diagnostic ViolatesServiceUsage(this ISymbol symbol)
+        {
+            return symbol.Diagnostic(ValueObjectMustNotUseServiceRule);
+        }
+
         public static Diagnostic DoesNotImplementIEquatable(this ISymbol symbol)
         {
             return symbol.Diagnostic(ValueObjectMustImplementIEquatable);
@@ -72,6 +91,26 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         public static Diagnostic IsNotSealed(this ISymbol symbol)
         {
             return symbol.Diagnostic(ValueObjectMustBeSealed);
+        }
+
+        public static void EnsureTypeIsAllowed(SymbolAnalysisContext context, ISymbol symbol, ITypeSymbol type)
+        {
+            EnsureTypeIsAllowed(context.ReportDiagnostic, symbol, type);
+        }
+
+
+        public static void EnsureTypeIsAllowed(SyntaxNodeAnalysisContext context, ISymbol symbol, ITypeSymbol type)
+        {
+            EnsureTypeIsAllowed(context.ReportDiagnostic, symbol, type);
+        }
+
+        private static void EnsureTypeIsAllowed(Action<Diagnostic> reportDiagnostic, ISymbol symbol, ITypeSymbol type)
+        {
+            if (type.IsEntity())
+                reportDiagnostic(symbol.ViolatesEntityUsage());
+
+            if (type.IsService())
+                reportDiagnostic(symbol.ViolatesServiceUsage());
         }
     }
 }

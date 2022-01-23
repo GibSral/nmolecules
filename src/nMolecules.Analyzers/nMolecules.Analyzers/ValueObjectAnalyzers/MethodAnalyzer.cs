@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using static NMolecules.Analyzers.ValueObjectAnalyzers.Diagnostics;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
@@ -13,8 +14,8 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             var method = (IMethodSymbol) context.Symbol;
             if (IsProperty(method)) return;
 
-            EnsureThatEntitiesAreNotUsedAsParameters(context, method);
-            EnsureThatEntityIsNotUsedAsReturnValue(context, method);
+            EnsureOnlyAllowedTypesAsParameters(context, method);
+            EnsureOnlyAllowedTypesAsReturnValue(context, method);
         }
 
         private static bool IsProperty(IMethodSymbol method)
@@ -22,20 +23,21 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             return method.MethodKind == MethodKind.PropertyGet || method.MethodKind == MethodKind.PropertySet;
         }
 
-        private static void EnsureThatEntityIsNotUsedAsReturnValue(SymbolAnalysisContext context, IMethodSymbol method)
+        private static void EnsureOnlyAllowedTypesAsReturnValue(SymbolAnalysisContext context, IMethodSymbol method)
         {
             if (!method.ReturnsVoid)
-                if (method.ReturnType.IsEntity())
-                    context.ReportDiagnostic(method.ViolatesEntityUsage());
+            {
+                var type = method.ReturnType;
+                EnsureTypeIsAllowed(context, method, type);
+            }
         }
 
-        private static void EnsureThatEntitiesAreNotUsedAsParameters(SymbolAnalysisContext context,
-            IMethodSymbol method)
+        private static void EnsureOnlyAllowedTypesAsParameters(SymbolAnalysisContext context, IMethodSymbol method)
         {
             foreach (var parameter in method.Parameters)
             {
                 var parameterType = parameter.Type;
-                if (parameterType.IsEntity()) context.ReportDiagnostic(parameter.ViolatesEntityUsage());
+                EnsureTypeIsAllowed(context, parameter, parameterType);
             }
         }
 
@@ -44,7 +46,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             var localDeclaration = (LocalDeclarationStatementSyntax) context.Node;
             var variable = localDeclaration.Declaration.Variables.Single();
             var declaredSymbol = (ILocalSymbol) context.SemanticModel.GetDeclaredSymbol(variable)!;
-            if (declaredSymbol.Type.IsEntity()) context.ReportDiagnostic(declaredSymbol.ViolatesEntityUsage());
+            EnsureTypeIsAllowed(context, declaredSymbol, declaredSymbol.Type);
         }
     }
 }

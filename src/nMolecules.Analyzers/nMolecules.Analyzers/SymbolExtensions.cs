@@ -14,7 +14,7 @@ namespace NMolecules.Analyzers
 
         private static bool IsValueObject(AttributeData attribute)
         {
-            var isValueObject = attribute.AttributeClass.Name.Equals(nameof(ValueObjectAttribute));
+            var isValueObject = attribute.AttributeClass!.Name.Equals(nameof(ValueObjectAttribute));
             return isValueObject;
         }
 
@@ -26,7 +26,18 @@ namespace NMolecules.Analyzers
         public static bool IsEntity(this ITypeSymbol type)
         {
             var attributes = type.GetAttributes().ToArray();
-            return attributes.Any(it => it.AttributeClass.Name.Equals(nameof(EntityAttribute)));
+            return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(EntityAttribute)));
+        }
+
+        public static bool IsService(this IPropertySymbol property)
+        {
+            return property.Type.IsService();
+        }
+
+        public static bool IsService(this ITypeSymbol type)
+        {
+            var attributes = type.GetAttributes().ToArray();
+            return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(ServiceAttribute)));
         }
 
         public static Diagnostic Diagnostic(this ISymbol symbol, DiagnosticDescriptor descriptor,

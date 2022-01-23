@@ -59,7 +59,8 @@
               : using a System.ComponentModel.TypeConverter
               : and then encoded with base64 encoding.
       -->
-    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root"
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+                id="root"
                 xmlns="">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
         <xsd:element name="root" msdata:IsDataSet="true">
@@ -159,6 +160,18 @@
   </data>
     <data name="ValueObjectUsesEntityTitle" xml:space="preserve">
     <value>ValueObject uses entities</value>
+        <comment>The title of the diagnostic.</comment>
+  </data>
+    <data name="ValueObjectUsesServiceDescription" xml:space="preserve">
+    <value>Value objects should not reference services.</value>
+        <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+    <data name="ValueObjectUsesServiceMessageFormat" xml:space="preserve">
+    <value>ValueObjects must not use services</value>
+        <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+    <data name="ValueObjectUsesServiceTitle" xml:space="preserve">
+    <value>ValueObject uses services</value>
         <comment>The title of the diagnostic.</comment>
   </data>
 </root>

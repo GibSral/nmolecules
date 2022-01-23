@@ -167,5 +167,32 @@ namespace NMolecules.Analyzers {
                 return ResourceManager.GetString("ValueObjectUsesEntityTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value objects should not reference services..
+        /// </summary>
+        internal static string ValueObjectUsesServiceDescription {
+            get {
+                return ResourceManager.GetString("ValueObjectUsesServiceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ValueObjects must not use services.
+        /// </summary>
+        internal static string ValueObjectUsesServiceMessageFormat {
+            get {
+                return ResourceManager.GetString("ValueObjectUsesServiceMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ValueObject uses services.
+        /// </summary>
+        internal static string ValueObjectUsesServiceTitle {
+            get {
+                return ResourceManager.GetString("ValueObjectUsesServiceTitle", resourceCulture);
+            }
+        }
     }
 }
