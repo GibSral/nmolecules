@@ -123,6 +123,31 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
                 entityUsedInMethodBody);
         }
 
+        [Fact]
+        public async Task Analyze_WithValueObjectUsesAggregateRoot_EmitsCompilerError()
+        {
+            var testCode = GenerateClass("AggregateRoot");
+            var entityAsField = CompilerError(Diagnostics.NoAggregateRootsInValueObjectsId)
+                .WithSpan(EntityFieldLineNumber, 44, EntityFieldLineNumber, 57);
+            var entityAsParameterInCtor = CompilerError(Diagnostics.NoAggregateRootsInValueObjectsId)
+                .WithSpan(CtorLineNumber, 53, CtorLineNumber, 58);
+            var entityAsProperty = CompilerError(Diagnostics.NoAggregateRootsInValueObjectsId)
+                .WithSpan(PropertyLineNumber, 34, PropertyLineNumber, 39);
+            var entityAsReturnValue = CompilerError(Diagnostics.NoAggregateRootsInValueObjectsId)
+                .WithSpan(MethodLineNumber, 34, MethodLineNumber, 44);
+            var entityAsParameterInMethod = CompilerError(Diagnostics.NoAggregateRootsInValueObjectsId)
+                .WithSpan(MethodLineNumber, 63, MethodLineNumber, 76);
+            var entityUsedInMethodBody = CompilerError(Diagnostics.NoAggregateRootsInValueObjectsId)
+                .WithSpan(EntityInMethodBodyLineNumber, 17, EntityInMethodBodyLineNumber, 34);
+            await VerifyCS.VerifyAnalyzerAsync(testCode,
+                entityAsField,
+                entityAsParameterInCtor,
+                entityAsProperty,
+                entityAsReturnValue,
+                entityAsParameterInMethod,
+                entityUsedInMethodBody);
+        }
+
         private static string GenerateClass(string type)
         {
             var invalidUsageTemplate = new InvalidUsageTemplate

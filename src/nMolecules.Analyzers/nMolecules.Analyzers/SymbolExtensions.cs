@@ -41,6 +41,12 @@ namespace NMolecules.Analyzers
             return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(RepositoryAttribute)));
         }
         
+        public static bool IsAggregateRoot(this ITypeSymbol type)
+        {
+            var attributes = type.GetAttributes().ToArray();
+            return attributes.Any(it => it.AttributeClass!.Name.Equals(nameof(AggregateRootAttribute)));
+        }
+        
         public static Diagnostic Diagnostic(this ISymbol symbol, DiagnosticDescriptor descriptor,
             params object[] parameters)
         {

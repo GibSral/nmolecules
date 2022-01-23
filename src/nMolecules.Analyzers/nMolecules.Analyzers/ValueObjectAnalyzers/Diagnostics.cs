@@ -12,6 +12,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         public const string NoServicesInValueObjectsId = nameof(NoServicesInValueObjectsId);
         public const string NoFactoriesInValueObjectsId = nameof(NoFactoriesInValueObjectsId);
         public const string NoRepositoriesInValueObjectsId = nameof(NoRepositoriesInValueObjectsId);
+        public const string NoAggregateRootsInValueObjectsId = nameof(NoAggregateRootsInValueObjectsId);
         public const string ValueObjectsMustBeImmutableId = nameof(ValueObjectsMustBeImmutableId);
         private const string Category = "Design";
 
@@ -55,6 +56,17 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             DiagnosticSeverity.Error,
             true,
             new LocalizableResourceString(nameof(Resources.ValueObjectUsesRepositoryDescription),
+                Resources.ResourceManager,
+                typeof(Resources)));
+        
+        public static readonly DiagnosticDescriptor ValueObjectMustNotUseAggregateRootRule = new(NoAggregateRootsInValueObjectsId,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesAggregateRootTitle), Resources.ResourceManager,
+                typeof(Resources)),
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesAggregateRootMessageFormat),
+                Resources.ResourceManager, typeof(Resources)), Category,
+            DiagnosticSeverity.Error,
+            true,
+            new LocalizableResourceString(nameof(Resources.ValueObjectUsesAggregateRootDescription),
                 Resources.ResourceManager,
                 typeof(Resources)));
         
@@ -117,6 +129,11 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             return symbol.Diagnostic(ValueObjectMustNotUseRepositoryRule);
         }
         
+        public static Diagnostic ViolatesAggregateRootUsage(this ISymbol symbol)
+        {
+            return symbol.Diagnostic(ValueObjectMustNotUseAggregateRootRule);
+        }
+        
         public static Diagnostic DoesNotImplementIEquatable(this ISymbol symbol)
         {
             return symbol.Diagnostic(ValueObjectMustImplementIEquatable);
@@ -151,6 +168,9 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
             
             if (type.IsRepository())
                 reportDiagnostic(symbol.ViolatesRepositoryUsage());
+            
+            if (type.IsAggregateRoot())
+                reportDiagnostic(symbol.ViolatesAggregateRootUsage());
         }
     }
 }

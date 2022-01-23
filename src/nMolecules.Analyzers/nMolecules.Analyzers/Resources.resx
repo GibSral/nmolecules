@@ -198,4 +198,16 @@
     <value>ValueObject uses repositories</value>
         <comment>The title of the diagnostic.</comment>
   </data>
+    <data name="ValueObjectUsesAggregateRootDescription" xml:space="preserve">
+    <value>Value objects should not reference aggregate roots.</value>
+        <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+    <data name="ValueObjectUsesAggregateRootMessageFormat" xml:space="preserve">
+    <value>ValueObjects must not use aggregate roots</value>
+        <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+    <data name="ValueObjectUsesAggregateRootTitle" xml:space="preserve">
+    <value>ValueObject uses aggregate roots</value>
+        <comment>The title of the diagnostic.</comment>
+  </data>
 </root>

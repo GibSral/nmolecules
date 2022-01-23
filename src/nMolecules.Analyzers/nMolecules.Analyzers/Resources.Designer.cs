@@ -142,6 +142,33 @@ namespace NMolecules.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Value objects should not reference aggregate roots..
+        /// </summary>
+        internal static string ValueObjectUsesAggregateRootDescription {
+            get {
+                return ResourceManager.GetString("ValueObjectUsesAggregateRootDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ValueObjects must not use aggregate roots.
+        /// </summary>
+        internal static string ValueObjectUsesAggregateRootMessageFormat {
+            get {
+                return ResourceManager.GetString("ValueObjectUsesAggregateRootMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ValueObject uses aggregate roots.
+        /// </summary>
+        internal static string ValueObjectUsesAggregateRootTitle {
+            get {
+                return ResourceManager.GetString("ValueObjectUsesAggregateRootTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value objects should not reference entities..
         /// </summary>
         internal static string ValueObjectUsesEntityDescription {

@@ -18,6 +18,7 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
                 ValueObjectMustNotUseServiceRule,
                 ValueObjectMustNotUseFactoryRule,
                 ValueObjectMustNotUseRepositoryRule,
+                ValueObjectMustNotUseAggregateRootRule,
                 ValueObjectMustBeImmutable,
                 ValueObjectMustImplementIEquatable, ValueObjectMustBeSealed);
 
