@@ -1,28 +1,29 @@
-﻿namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests.SampleData
+﻿<#@ template language="C#" #>
+namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests.SampleData
 {
     using System;
     using NMolecules.DDD;
 
-    [Service]
-    public class SomeService
+    [<#= Session["type"] #>]
+    public class Some<#= Session["type"] #>
     {
     }
     
     [ValueObject]
     public sealed class InvalidValueObject : IEquatable<InvalidValueObject>
     {
-        private readonly SomeService service;
-        public InvalidValueObject(SomeService value)
+        private readonly Some<#= Session["type"] #> <#= Session["name"] #>;
+        public InvalidValueObject(Some<#= Session["type"] #> value)
         {
             Value = value;
         }
         
-        public SomeService Value { get; }
+        public Some<#= Session["type"] #> Value { get; }
 
-        public SomeService SomeMethod(SomeService service)
+        public Some<#= Session["type"] #> SomeMethod(Some<#= Session["type"] #> <#= Session["name"] #>)
         {
-            var someService = new SomeService();
-            return someService;
+            var some<#= Session["type"] #> = new Some<#= Session["type"] #>();
+            return some<#= Session["type"] #>;
         }
         
         public bool Equals(InvalidValueObject other)
