@@ -20,7 +20,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
         private const string Title = "Implement IEquatable";
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds =>
-            ImmutableArray.Create(Diagnostics.ValueObjectsMustImplementIEquatableId);
+            ImmutableArray.Create(Rules.ValueObjectsMustImplementIEquatableId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
@@ -32,7 +32,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
             var diagnostic =
-                context.Diagnostics.First(it => it.Id.Equals(Diagnostics.ValueObjectsMustImplementIEquatableId));
+                context.Diagnostics.First(it => it.Id.Equals(Rules.ValueObjectsMustImplementIEquatableId));
             var diagnosticSpan = diagnostic.Location.SourceSpan;
             var declaration = root!.FindToken(diagnosticSpan.Start)!.Parent.AncestorsAndSelf()
                 .OfType<TypeDeclarationSyntax>().First();

@@ -20,7 +20,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
         private const string Title = "Make value object sealed";
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds =>
-            ImmutableArray.Create(Diagnostics.ValueObjectsMustBeSealedId);
+            ImmutableArray.Create(Rules.ValueObjectsMustBeSealedId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
@@ -31,7 +31,7 @@ namespace NMolecules.Analyzers.ValueObjectCodeFixProvider
         {
             var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
-            var diagnostic = context.Diagnostics.First(it => it.Id.Equals(Diagnostics.ValueObjectsMustBeSealedId));
+            var diagnostic = context.Diagnostics.First(it => it.Id.Equals(Rules.ValueObjectsMustBeSealedId));
             var diagnosticSpan = diagnostic.Location.SourceSpan;
             var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf()
                 .OfType<TypeDeclarationSyntax>().First();

@@ -6,7 +6,7 @@ using static NMolecules.Analyzers.ValueObjectAnalyzers.PropertyAnalyzer;
 using static NMolecules.Analyzers.ValueObjectAnalyzers.MethodAnalyzer;
 using static NMolecules.Analyzers.ValueObjectAnalyzers.FieldAnalyzer;
 using static NMolecules.Analyzers.ValueObjectAnalyzers.ClassSymbolAnalyzer;
-using static NMolecules.Analyzers.ValueObjectAnalyzers.Diagnostics;
+using static NMolecules.Analyzers.ValueObjectAnalyzers.Rules;
 
 namespace NMolecules.Analyzers.ValueObjectAnalyzers
 {
@@ -19,8 +19,8 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
                 ValueObjectMustNotUseFactoryRule,
                 ValueObjectMustNotUseRepositoryRule,
                 ValueObjectMustNotUseAggregateRootRule,
-                ValueObjectMustBeImmutable,
-                ValueObjectMustImplementIEquatable, ValueObjectMustBeSealed);
+                ValueObjectMustBeImmutableRule,
+                ValueObjectMustImplementIEquatableRule, ValueObjectMustBeSealedRule);
 
         public override void Initialize(AnalysisContext context)
         {
