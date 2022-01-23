@@ -19,7 +19,7 @@
         
         public SomeEntity Value { get; }
 
-        public SomeEntity AddToEntity(SomeEntity entity)
+        public SomeEntity SomeMethod(SomeEntity entity)
         {
             var someEntity = new SomeEntity();
             return new SomeEntity();

@@ -26,9 +26,9 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
             var entityAsProperty = CompilerError(Diagnostics.NoServicesInValueObjectsId)
                 .WithSpan(propertyLineNumber, 28, propertyLineNumber, 33);
             var entityAsReturnValue = CompilerError(Diagnostics.NoServicesInValueObjectsId)
-                .WithSpan(methodLineNumber, 28, methodLineNumber, 50);
+                .WithSpan(methodLineNumber, 28, methodLineNumber, 38);
             var entityAsParameterInMethod = CompilerError(Diagnostics.NoServicesInValueObjectsId)
-                .WithSpan(methodLineNumber, 63, methodLineNumber, 70);
+                .WithSpan(methodLineNumber, 51, methodLineNumber, 58);
             var entityUsedInMethodBody = CompilerError(Diagnostics.NoServicesInValueObjectsId)
                 .WithSpan(entityInMethodBodyLineNumber, 17, entityInMethodBodyLineNumber, 28);
             await VerifyCS.VerifyAnalyzerAsync(testCode,

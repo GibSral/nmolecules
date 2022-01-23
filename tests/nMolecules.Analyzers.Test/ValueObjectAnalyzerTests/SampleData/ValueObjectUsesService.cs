@@ -19,7 +19,7 @@
         
         public SomeService Value { get; }
 
-        public SomeService DoSomethingWithService(SomeService service)
+        public SomeService SomeMethod(SomeService service)
         {
             var someService = new SomeService();
             return someService;
