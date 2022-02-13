@@ -61,6 +61,33 @@ namespace NMolecules.Analyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entities should not reference repositories..
+        /// </summary>
+        internal static string EntityMustNotUseRepositoryDescription {
+            get {
+                return ResourceManager.GetString("EntityMustNotUseRepositoryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entities should not reference repositories.
+        /// </summary>
+        internal static string EntityMustNotUseRepositoryFormat {
+            get {
+                return ResourceManager.GetString("EntityMustNotUseRepositoryFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entities should not reference repositories.
+        /// </summary>
+        internal static string EntityMustNotUseRepositoryTitle {
+            get {
+                return ResourceManager.GetString("EntityMustNotUseRepositoryTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value objects must be immutable..
         /// </summary>
         internal static string ValueObjectMustBeImmutableDescription {

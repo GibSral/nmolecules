@@ -210,4 +210,16 @@
     <value>ValueObject uses aggregate roots</value>
         <comment>The title of the diagnostic.</comment>
   </data>
+    <data name="EntityMustNotUseRepositoryDescription" xml:space="preserve">
+    <value>Entities should not reference repositories.</value>
+        <comment>An optional longer localizable description of the diagnostic.</comment>
+  </data>
+    <data name="EntityMustNotUseRepositoryFormat" xml:space="preserve">
+    <value>Entities should not reference repositories</value>
+        <comment>The format-able message the diagnostic displays.</comment>
+  </data>
+    <data name="EntityMustNotUseRepositoryTitle" xml:space="preserve">
+    <value>Entities should not reference repositories</value>
+        <comment>The title of the diagnostic.</comment>
+  </data>
 </root>
