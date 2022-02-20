@@ -13,7 +13,7 @@ namespace NMolecules.Analyzers.Test.EntityAnalyzerTests.SampleData
     public sealed class InvalidEntity
     {
         private readonly Some<#= Session["type"] #> <#= Session["name"] #>;
-        public InvalidValueObject(Some<#= Session["type"] #> value)
+        public InvalidEntity(Some<#= Session["type"] #> value)
         {
             Value = value;
         }

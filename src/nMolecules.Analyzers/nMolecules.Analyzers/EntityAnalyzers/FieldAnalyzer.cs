@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using static NMolecules.Analyzers.ValueObjectAnalyzers.Diagnostics;
+using static NMolecules.Analyzers.EntityAnalyzers.Diagnostics;
 
 namespace NMolecules.Analyzers.EntityAnalyzers
 {

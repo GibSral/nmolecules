@@ -53,7 +53,7 @@ namespace NMolecules.Analyzers.Test.EntityAnalyzerTests.SampleData
             
             #line default
             #line hidden
-            this.Write(";\r\n        public InvalidValueObject(Some");
+            this.Write(";\r\n        public InvalidEntity(Some");
             
             #line 16 "C:\Users\LarsB\source\github\xmolecules\nmolecules\tests\nMolecules.Analyzers.Test\EntityAnalyzerTests\SampleData\InvalidUsageTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["type"]));
