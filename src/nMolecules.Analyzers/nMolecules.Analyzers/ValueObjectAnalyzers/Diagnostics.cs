@@ -39,9 +39,6 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
 
             if (type.IsService())
                 reportDiagnostic(symbol.ViolatesServiceUsage());
-
-            if (type.IsFactory())
-                reportDiagnostic(symbol.ViolatesFactoryUsage());
             
             if (type.IsRepository())
                 reportDiagnostic(symbol.ViolatesRepositoryUsage());
@@ -58,11 +55,6 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
         private static Diagnostic ViolatesServiceUsage(this ISymbol symbol)
         {
             return symbol.Diagnostic(ValueObjectMustNotUseServiceRule);
-        }
-
-        private static Diagnostic ViolatesFactoryUsage(this ISymbol symbol)
-        {
-            return symbol.Diagnostic(ValueObjectMustNotUseFactoryRule);
         }
 
         private static Diagnostic ViolatesRepositoryUsage(this ISymbol symbol)

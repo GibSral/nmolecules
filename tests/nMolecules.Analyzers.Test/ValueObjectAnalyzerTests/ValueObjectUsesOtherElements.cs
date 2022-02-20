@@ -68,37 +68,6 @@ namespace NMolecules.Analyzers.Test.ValueObjectAnalyzerTests
         }
 
         [Fact]
-        public async Task Analyze_WithValueObjectUsesFactory_EmitsCompilerError()
-        {
-            var testCode = GenerateClass("Factory");
-            const int entityFieldLineNumber = 14;
-            const int ctorLineNumber = 15;
-            const int propertyLineNumber = 20;
-            const int methodLineNumber = 22;
-            const int entityInMethodBodyLineNumber = 24;
-
-            var entityAsField = CompilerError(Rules.NoFactoriesInValueObjectsId)
-                .WithSpan(entityFieldLineNumber, 38, entityFieldLineNumber, 45);
-            var entityAsParameterInCtor = CompilerError(Rules.NoFactoriesInValueObjectsId)
-                .WithSpan(ctorLineNumber, 47, ctorLineNumber, 52);
-            var entityAsProperty = CompilerError(Rules.NoFactoriesInValueObjectsId)
-                .WithSpan(propertyLineNumber, 28, propertyLineNumber, 33);
-            var entityAsReturnValue = CompilerError(Rules.NoFactoriesInValueObjectsId)
-                .WithSpan(methodLineNumber, 28, methodLineNumber, 38);
-            var entityAsParameterInMethod = CompilerError(Rules.NoFactoriesInValueObjectsId)
-                .WithSpan(methodLineNumber, 51, methodLineNumber, 58);
-            var entityUsedInMethodBody = CompilerError(Rules.NoFactoriesInValueObjectsId)
-                .WithSpan(entityInMethodBodyLineNumber, 17, entityInMethodBodyLineNumber, 28);
-            await VerifyCS.VerifyAnalyzerAsync(testCode,
-                entityAsField,
-                entityAsParameterInCtor,
-                entityAsProperty,
-                entityAsReturnValue,
-                entityAsParameterInMethod,
-                entityUsedInMethodBody);
-        }
-
-        [Fact]
         public async Task Analyze_WithValueObjectUsesRepository_EmitsCompilerError()
         {
             var testCode = GenerateClass("Repository");

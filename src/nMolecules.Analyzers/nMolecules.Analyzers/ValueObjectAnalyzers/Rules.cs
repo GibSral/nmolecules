@@ -35,17 +35,6 @@ namespace NMolecules.Analyzers.ValueObjectAnalyzers
                 Resources.ResourceManager,
                 typeof(Resources)));
 
-        public static readonly DiagnosticDescriptor ValueObjectMustNotUseFactoryRule = new(NoFactoriesInValueObjectsId,
-            new LocalizableResourceString(nameof(Resources.ValueObjectUsesFactoryTitle), Resources.ResourceManager,
-                typeof(Resources)),
-            new LocalizableResourceString(nameof(Resources.ValueObjectUsesFactoryMessageFormat),
-                Resources.ResourceManager, typeof(Resources)), Category,
-            DiagnosticSeverity.Error,
-            true,
-            new LocalizableResourceString(nameof(Resources.ValueObjectUsesFactoryDescription),
-                Resources.ResourceManager,
-                typeof(Resources)));
-
         public static readonly DiagnosticDescriptor ValueObjectMustNotUseRepositoryRule = new(NoRepositoriesInValueObjectsId,
             new LocalizableResourceString(nameof(Resources.ValueObjectUsesRepositoryTitle), Resources.ResourceManager,
                 typeof(Resources)),
